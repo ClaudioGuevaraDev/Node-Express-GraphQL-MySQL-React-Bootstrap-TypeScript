@@ -47,8 +47,13 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="hstack gap-3">
-            <button className="btn btn-success btn-lg">Login</button>
-            <button className="btn btn-warning btn-lg">Register</button>
+            <Link to="/login" className="btn btn-success btn-lg">
+              Login
+            </Link>
+            <Link to="/register" className="btn btn-warning btn-lg">
+              Register
+            </Link>
+            
           </div>
         </div>
       </div>

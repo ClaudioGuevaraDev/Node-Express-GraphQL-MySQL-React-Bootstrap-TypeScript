@@ -2,11 +2,15 @@ import { Routes, Route } from "react-router-dom";
 
 // Pages
 import Home from "../pages/Home";
+import Login from "../pages/Auth/Login";
+import Register from "../pages/Auth/Register";
 
 const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 };
