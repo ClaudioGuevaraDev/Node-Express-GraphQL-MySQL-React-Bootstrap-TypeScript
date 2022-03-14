@@ -1,10 +1,14 @@
-import bcrypt from "bcrypt";
 import validator from "validator";
 
 import { getRepository } from "typeorm";
 
+// Entities
 import { RegisterUser } from "../../../interfaces/User";
 import { User } from "../../../entities";
+
+// Utils
+import { encryptPassword } from "../../../utils/handlePassword";
+import { sendEmail } from "../../../utils/sendEmail";
 
 export const UserMutation = {
   registerUser: async (_: undefined, args: RegisterUser) => {
@@ -40,17 +44,16 @@ export const UserMutation = {
 
     if (searchEmail.length > 0) throw new Error("Email already registered.");
 
-    // Encrypt password
-    const salt = await bcrypt.genSalt(10);
-    const hashPasword = await bcrypt.hash(user.password, salt);
-
     const newUser = getRepository(User).create({
       ...user,
-      password: hashPasword,
+      password: await encryptPassword(user.password),
     });
 
     try {
       const savedUser = await getRepository(User).save(newUser);
+
+      sendEmail(savedUser.email);
+
       return savedUser;
     } catch (error) {
       throw new Error(
