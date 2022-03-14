@@ -17,6 +17,6 @@ export const sendEmail = async (email: string, id: string): Promise<void> => {
     from: email,
     to: config.NODEMAILER_TO,
     subject: "Validate account",
-    html: `<a href="http://localhost:4000/auth/validateAccount/${id}">Validate account</a>`,
+    html: `<a href="http://${config.HOST_APP}:${config.PORT_APP}/auth/validateAccount/${id}" target="_blank">Validate account</a>`,
   });
 };

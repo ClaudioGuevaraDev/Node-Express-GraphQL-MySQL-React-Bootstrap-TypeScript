@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const config = {
-  PORT: process.env.PORT || 4000,
+  PORT_APP: process.env.PORT_APP || 4000,
+  HOST_APP: process.env.HOST_APP || "localhost",
 
   DATABASE_TYPE: process.env.DATABASE_TYPE || "mysql",
   DATABASE_HOST: process.env.DATABASE_HOST || "localhost",

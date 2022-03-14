@@ -6,7 +6,7 @@ export const UserTypeDefs = gql`
   }
 
   type Mutation {
-    registerUser(user: RegisterUserInput!): User
+    registerUser(user: RegisterUserInput!): CreateUserResponse
   }
 
   type User {
@@ -25,6 +25,11 @@ export const UserTypeDefs = gql`
     name: String
     createdAt: String
     updatedAt: String
+  }
+
+  type CreateUserResponse {
+    user: User
+    message: String
   }
 
   input RegisterUserInput {

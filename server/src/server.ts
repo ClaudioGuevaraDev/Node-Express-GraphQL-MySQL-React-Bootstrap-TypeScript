@@ -27,7 +27,7 @@ export async function startApolloServer() {
   app.use("/auth", routes.authRoutes);
 
   await new Promise<void>((resolve) =>
-    httpServer.listen({ port: config.PORT }, resolve)
+    httpServer.listen({ port: config.PORT_APP }, resolve)
   );
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  console.log(`🚀 Server ready at http://${config.HOST_APP}:${config.PORT_APP}${server.graphqlPath}`);
 }

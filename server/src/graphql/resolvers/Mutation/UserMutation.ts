@@ -46,16 +46,19 @@ export const UserMutation = {
 
     const rol = await getRepository(Rol).findOne({
       where: {
-        name: "Trainer"
-      }
-    })
+        name: "Trainer",
+      },
+    });
 
-    if (!rol) throw new Error("An error occurred while trying to register the account. Please try again.")
+    if (!rol)
+      throw new Error(
+        "An error occurred while trying to register the account. Please try again."
+      );
 
     const newUser = getRepository(User).create({
       ...user,
       password: await encryptPassword(user.password),
-      rol
+      rol,
     });
 
     try {
@@ -63,7 +66,10 @@ export const UserMutation = {
 
       sendEmail(savedUser.email, savedUser.id.toString());
 
-      return savedUser;
+      return {
+        user: savedUser,
+        message: "We send you a verification message!!!",
+      };
     } catch (error) {
       throw new Error(
         "An error occurred while trying to register the account. Please try again."
