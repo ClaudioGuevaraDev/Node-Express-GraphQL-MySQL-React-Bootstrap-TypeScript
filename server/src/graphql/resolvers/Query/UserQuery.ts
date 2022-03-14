@@ -4,7 +4,7 @@ import { User } from "../../../entities";
 
 export const UserQuery = {
   getAllUsers: async () => {
-    const users = await getRepository(User).find();
+    const users = await getRepository(User).find({ relations: ["rol"] });
 
     return users;
   },

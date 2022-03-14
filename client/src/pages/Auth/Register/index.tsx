@@ -1,4 +1,11 @@
+import { useState } from "react"
+
 const Register = () => {
+  const [usernameValue, setUsernameValue] = useState("")
+  const [emailValue, setEmailValue] = useState("")
+  const [passwordValue, setPasswordValue] = useState("")
+  const [confirmPasswordValue, setConfirmPassword] = useState("")
+
   return (
     <div className="container p-4">
       <div className="row">

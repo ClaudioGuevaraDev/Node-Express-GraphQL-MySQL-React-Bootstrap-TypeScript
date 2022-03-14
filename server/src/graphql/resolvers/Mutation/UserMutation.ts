@@ -4,7 +4,7 @@ import { getRepository } from "typeorm";
 
 // Entities
 import { RegisterUser } from "../../../interfaces/User";
-import { User } from "../../../entities";
+import { User, Rol } from "../../../entities";
 
 // Utils
 import { encryptPassword } from "../../../utils/handlePassword";
@@ -44,9 +44,18 @@ export const UserMutation = {
 
     if (searchEmail.length > 0) throw new Error("Email already registered.");
 
+    const rol = await getRepository(Rol).findOne({
+      where: {
+        name: "Trainer"
+      }
+    })
+
+    if (!rol) throw new Error("An error occurred while trying to register the account. Please try again.")
+
     const newUser = getRepository(User).create({
       ...user,
       password: await encryptPassword(user.password),
+      rol
     });
 
     try {

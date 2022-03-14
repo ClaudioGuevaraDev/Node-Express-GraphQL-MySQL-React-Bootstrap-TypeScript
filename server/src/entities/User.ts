@@ -5,7 +5,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
+import { Rol } from "./Rol";
 
 @Entity()
 export class User extends BaseEntity {
@@ -26,6 +28,9 @@ export class User extends BaseEntity {
     default: false,
   })
   validated: boolean;
+
+  @ManyToOne(() => Rol, (rol) => rol.users)
+  rol: Rol;
 
   @Column()
   password: string;

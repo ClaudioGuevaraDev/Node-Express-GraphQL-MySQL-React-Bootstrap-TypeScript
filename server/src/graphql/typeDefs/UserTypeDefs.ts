@@ -15,6 +15,14 @@ export const UserTypeDefs = gql`
     email: String
     password: String
     validated: Boolean
+    rol: Rol
+    createdAt: String
+    updatedAt: String
+  }
+
+  type Rol {
+    id: ID
+    name: String
     createdAt: String
     updatedAt: String
   }
