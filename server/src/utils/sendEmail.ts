@@ -1,20 +1,22 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async (email: string): Promise<void> => {
+import { config } from "../config";
+
+export const sendEmail = async (email: string, id: string): Promise<void> => {
   const transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
-    port: 587,
+    host: config.NODEMAILER_HOST,
+    port: parseInt(config.NODEMAILER_PORT),
     secure: false,
     auth: {
-      user: "henry.jacobi46@ethereal.email",
-      pass: "kscG6vSH9hTuT3q5jS",
+      user: config.NODEMAILER_USER,
+      pass: config.NODEMAILER_PASS,
     },
   });
 
   await transporter.sendMail({
     from: email,
-    to: "claudioguevaradev@gmail.com",
+    to: config.NODEMAILER_TO,
     subject: "Validate account",
-    html: "<p>Hello world</p>",
+    html: `<a href="http://localhost:4000/auth/validateAccount/${id}">Validate account</a>`,
   });
 };

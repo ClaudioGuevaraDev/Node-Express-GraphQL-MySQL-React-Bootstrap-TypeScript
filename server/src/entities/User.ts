@@ -22,6 +22,11 @@ export class User extends BaseEntity {
   })
   email: string;
 
+  @Column({
+    default: false,
+  })
+  validated: boolean;
+
   @Column()
   password: string;
 

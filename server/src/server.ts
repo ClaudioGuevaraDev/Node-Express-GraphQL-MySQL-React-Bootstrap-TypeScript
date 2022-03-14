@@ -8,9 +8,13 @@ import { config } from "./config";
 import { resolvers } from "./graphql/resolvers";
 import { typeDefs } from "./graphql/typeDefs";
 
+import * as routes from "./routes";
+
 export async function startApolloServer() {
   const app = express();
   const httpServer = http.createServer(app);
+
+  // Graphql
   const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -18,6 +22,10 @@ export async function startApolloServer() {
   });
   await server.start();
   server.applyMiddleware({ app });
+
+  // Routes
+  app.use("/auth", routes.authRoutes);
+
   await new Promise<void>((resolve) =>
     httpServer.listen({ port: config.PORT }, resolve)
   );

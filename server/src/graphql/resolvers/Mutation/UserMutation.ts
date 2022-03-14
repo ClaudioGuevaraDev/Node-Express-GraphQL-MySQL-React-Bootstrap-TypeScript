@@ -52,7 +52,7 @@ export const UserMutation = {
     try {
       const savedUser = await getRepository(User).save(newUser);
 
-      sendEmail(savedUser.email);
+      sendEmail(savedUser.email, savedUser.id.toString());
 
       return savedUser;
     } catch (error) {

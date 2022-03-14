@@ -11,4 +11,11 @@ export const config = {
   DATABASE_USERNAME: process.env.DATABASE_USERNAME || "root",
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || "",
   DATABASE_NAME: process.env.DATABASE_NAME || "database",
+
+  NODEMAILER_HOST: process.env.NODEMAILER_HOST || "smtp.ethereal.email",
+  NODEMAILER_PORT: process.env.NODEMAILER_PORT || "587",
+  NODEMAILER_USER:
+    process.env.NODEMAILER_USER || "henry.jacobi46@ethereal.email",
+  NODEMAILER_PASS: process.env.NODEMAILER_PASS || "kscG6vSH9hTuT3q5jS",
+  NODEMAILER_TO: process.env.NODEMAILER_TO || "",
 };
