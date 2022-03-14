@@ -1,9 +1,3 @@
-import { gql } from "apollo-server-express";
+import { UserTypeDefs } from "./UserTypeDefs";
 
-const Example = gql`
-  type Query {
-    hello: String
-  }
-`;
-
-export const typeDefs = [Example];
+export const typeDefs = [UserTypeDefs];

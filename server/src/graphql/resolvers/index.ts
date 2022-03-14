@@ -1,5 +1,7 @@
+import { Query } from "./Query";
+import { Mutation } from "./Mutation";
+
 export const resolvers = {
-  Query: {
-    hello: () => "Hello World"
-  },
+  Query,
+  Mutation,
 };

@@ -10,6 +10,7 @@ import { createConnection } from "typeorm";
       port: 3306,
       username: "root",
       password: "claudio123",
+      database: "graphql",
       entities: [path.join(__dirname, "./entities/*.js")],
       synchronize: true,
     });
