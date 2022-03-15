@@ -7,6 +7,7 @@ export const UserTypeDefs = gql`
 
   type Mutation {
     registerUser(user: RegisterUserInput!): CreateUserResponse
+    registerUserRoot(user: RegisterUserInput!): User
     login(user: LoginInput!): LoginResponse
   }
 
