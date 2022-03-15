@@ -15,8 +15,9 @@ export const config = {
 
   NODEMAILER_HOST: process.env.NODEMAILER_HOST || "smtp.ethereal.email",
   NODEMAILER_PORT: process.env.NODEMAILER_PORT || "587",
-  NODEMAILER_USER:
-    process.env.NODEMAILER_USER || "",
+  NODEMAILER_USER: process.env.NODEMAILER_USER || "",
   NODEMAILER_PASS: process.env.NODEMAILER_PASS || "",
   NODEMAILER_TO: process.env.NODEMAILER_TO || "",
+
+  SECRET_TOKEN: process.env.SECRET_TOKEN || "wenas",
 };

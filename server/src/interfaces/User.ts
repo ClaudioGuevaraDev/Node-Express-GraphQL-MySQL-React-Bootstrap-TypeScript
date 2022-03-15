@@ -6,3 +6,10 @@ export interface RegisterUser {
     confirmPassword: string;
   };
 }
+
+export interface LoginUser {
+  user: {
+    username: string;
+    password: string;
+  };
+}

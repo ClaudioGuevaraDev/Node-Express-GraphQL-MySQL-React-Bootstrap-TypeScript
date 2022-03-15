@@ -1,14 +1,20 @@
+import jwt from "jsonwebtoken";
 import validator from "validator";
 
 import { getRepository } from "typeorm";
 
 // Entities
-import { RegisterUser } from "../../../interfaces/User";
+import { RegisterUser, LoginUser } from "../../../interfaces/User";
 import { User, Rol } from "../../../entities";
 
 // Utils
-import { encryptPassword } from "../../../utils/handlePassword";
+import {
+  encryptPassword,
+  comparePassword,
+} from "../../../utils/handlePassword";
 import { sendEmail } from "../../../utils/sendEmail";
+
+import { config } from "../../../config";
 
 export const UserMutation = {
   registerUser: async (_: undefined, args: RegisterUser) => {
@@ -75,5 +81,38 @@ export const UserMutation = {
         "An error occurred while trying to register the account. Please try again."
       );
     }
+  },
+  login: async (_: undefined, args: LoginUser) => {
+    const { user } = args;
+
+    const userFound = await getRepository(User).findOne({
+      where: {
+        username: user.username,
+      },
+      relations: ["rol"],
+    });
+
+    if (!userFound) throw new Error("Error logging in.");
+
+    if (!(await comparePassword(user.password, userFound.password)))
+      throw new Error("Error logging in.");
+
+    if (userFound.validated === false)
+      throw new Error("Account not validated.");
+
+    const userToken = {
+      id: userFound.id,
+      username: userFound.username,
+      validated: userFound.validated,
+      rol: userFound.rol.name,
+    };
+
+    const token = jwt.sign(userToken, config.SECRET_TOKEN, {
+      expiresIn: 86400,
+    });
+
+    return {
+      token,
+    };
   },
 };

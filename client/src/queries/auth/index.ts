@@ -7,3 +7,11 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+
+export const LOGIN = gql`
+  mutation login($user: LoginInput!) {
+    login(user: $user) {
+      token
+    }
+  }
+`
