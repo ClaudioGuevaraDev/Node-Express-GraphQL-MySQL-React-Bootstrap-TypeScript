@@ -1,10 +1,18 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import { LOGIN } from "../../../queries/auth";
+import { AppContext } from "../../../context/AppContext";
+import { LOGGED_USER } from "../../../context/AppConstants";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const { state, dispatch } = useContext(AppContext);
+  const { logged } = state;
+
   const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
@@ -17,8 +25,18 @@ const Login = () => {
   });
 
   useEffect(() => {
+    if (logged === true) navigate("/dashboard");
+
     if (result.data) {
       window.localStorage.setItem("token", result.data.login.token);
+      dispatch({
+        type: LOGGED_USER,
+        payload: {
+          token: result.data.login.token,
+          logged: true,
+        },
+      });
+      navigate("/dashboard");
     }
   }, [result.data]);
 

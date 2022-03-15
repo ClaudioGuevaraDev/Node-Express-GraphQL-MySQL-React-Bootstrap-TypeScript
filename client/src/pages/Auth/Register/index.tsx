@@ -1,12 +1,16 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+import { AppContext } from "../../../context/AppContext";
 import { REGISTER_USER } from "../../../queries/auth";
 
 const Register = () => {
   const navigate = useNavigate();
+
+  const { state } = useContext(AppContext);
+  const { logged } = state;
 
   const [usernameValue, setUsernameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
@@ -22,6 +26,8 @@ const Register = () => {
   });
 
   useEffect(() => {
+    if (logged === true) navigate("/dashboard");
+
     if (result.data) {
       toast(result.data.registerUser.message, {
         type: "success",

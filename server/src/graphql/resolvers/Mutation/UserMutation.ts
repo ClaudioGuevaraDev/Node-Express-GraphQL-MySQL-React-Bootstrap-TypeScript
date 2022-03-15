@@ -103,7 +103,6 @@ export const UserMutation = {
     const userToken = {
       id: userFound.id,
       username: userFound.username,
-      validated: userFound.validated,
       rol: userFound.rol.name,
     };
 
