@@ -8,6 +8,8 @@ export interface AppContextProps {
 export interface ContextState {
   token?: string;
   logged?: boolean;
+  username?: string;
+  rol?: string;
 }
 
 export interface ReducerAction {

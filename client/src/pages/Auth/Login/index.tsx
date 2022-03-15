@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode"
+
 import { ChangeEvent, FormEvent, useState, useEffect, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
@@ -6,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { LOGIN } from "../../../queries/auth";
 import { AppContext } from "../../../context/AppContext";
 import { LOGGED_USER } from "../../../context/AppConstants";
+import { Token } from "../../../interfaces/Token";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,11 +32,17 @@ const Login = () => {
 
     if (result.data) {
       window.localStorage.setItem("token", result.data.login.token);
+
+      const decodedToken: Token = jwt_decode(result.data.login.token)
+      const { username, rol } = decodedToken
+
       dispatch({
         type: LOGGED_USER,
         payload: {
           token: result.data.login.token,
           logged: true,
+          username,
+          rol
         },
       });
       navigate("/dashboard");

@@ -43,6 +43,8 @@ const Router = () => {
           payload: {
             token,
             logged: true,
+            username: decodedToken.username,
+            rol: decodedToken.rol
           },
         });
       }

@@ -10,6 +10,8 @@ export const AppReducer = (state: ContextState, action: ReducerAction) => {
         ...state,
         token: payload.token,
         logged: payload.logged,
+        username: payload.username,
+        rol: payload.rol
       };
     default:
       return state;
