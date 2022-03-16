@@ -19,6 +19,11 @@ export async function startApolloServer() {
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    context: ({ req }) => {
+      const token = req.headers.authorization || ''
+
+      return { token }
+    }
   });
   await server.start();
   server.applyMiddleware({ app });
