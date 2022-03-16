@@ -13,8 +13,6 @@ export interface PokemonTypeId {
 export interface UpdatePokemonType {
   pokemonType: {
     id: number;
-    pokemon: {
-      name: string;
-    };
+    name: string;
   };
 }

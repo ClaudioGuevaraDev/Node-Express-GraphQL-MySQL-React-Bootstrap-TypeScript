@@ -36,27 +36,31 @@ export const PokemonTypeMutation = {
         pokemonType,
       };
     } catch (error) {
-      console.log(error);
-      throw new Error("error");
+      throw new Error("Error deleting the type.");
     }
   },
-  // updatePokemonType: async (_:undefined, args: UpdatePokemonType) => {
-  //   const pokemonType = await getRepository(PokemonType).findOne(args.pokemonType.id)
+  updatePokemonType: async (_: undefined, args: UpdatePokemonType) => {
+    const pokemonType = await getRepository(PokemonType).findOne(
+      args.pokemonType.id
+    );
 
-  //   if (!pokemonType) throw new Error("Pokemon type not found.")
+    if (!pokemonType) throw new Error("Pokemon type not found.");
 
-  //   getRepository(PokemonType).merge(pokemonType, args.pokemonType.pokemon)
+    getRepository(PokemonType).merge(pokemonType, {
+      name: args.pokemonType.name,
+    });
 
-  //   try {
-  //     const savedPokemonType = await getRepository(PokemonType).save(pokemonType)
+    try {
+      const savedPokemonType = await getRepository(PokemonType).save(
+        pokemonType
+      );
 
-  //     return {
-  //       message: "Pokemon type updated",
-  //       pokemonType: savedPokemonType
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //     throw new Error("Error")
-  //   }
-  // },
+      return {
+        message: "Pokemon type updated",
+        pokemonType: savedPokemonType,
+      };
+    } catch (error) {
+      throw new Error("Error updating the type.");
+    }
+  },
 };

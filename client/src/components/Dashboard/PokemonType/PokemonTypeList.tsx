@@ -9,7 +9,7 @@ import {
 
 import {
   GET_ALL_POKEMON_TYPES,
-  DELETE_POKEMON,
+  DELETE_POKEMON_TYPE,
 } from "../../../queries/PokemonType";
 
 interface Props {
@@ -21,7 +21,7 @@ const PokemonTypeList = (props: Props) => {
 
   const { loading, data } = useQuery(GET_ALL_POKEMON_TYPES);
 
-  const [deletePokemonType, deleteResult] = useMutation(DELETE_POKEMON, {
+  const [deletePokemonType, deleteResult] = useMutation(DELETE_POKEMON_TYPE, {
     onError: (error) => {
       console.log(error.message);
     },
@@ -30,7 +30,7 @@ const PokemonTypeList = (props: Props) => {
         query: GET_ALL_POKEMON_TYPES,
       });
       const getAllPokemonTypesFilter = dataInStore.getAllPokemonTypes.filter(
-        (t: any) => t.id !== response.data.deletePokemonType.pokemonType.id
+        (t: any) => t.id !== response.data.deletePokemon.pokemonType.id
       );
       store.writeQuery({
         query: GET_ALL_POKEMON_TYPES,

@@ -1,19 +1,28 @@
-import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 
 import {
   CREATE_POKEMON_TYPE,
   GET_ALL_POKEMON_TYPES,
+  UPDATE_POKEMON_TYPE,
 } from "../../../queries/PokemonType";
 import { UpdatePokemonType } from "../../../interfaces/PokemonType";
 
 interface Props {
   updatePokemonType: UpdatePokemonType;
+  setUpdatePokemonType: Dispatch<SetStateAction<UpdatePokemonType>>;
 }
 
 const PokemonTypeForm = (props: Props) => {
-  const { updatePokemonType } = props;
+  const { updatePokemonType, setUpdatePokemonType } = props;
 
   const [nameValue, setNameValue] = useState("");
 
@@ -40,6 +49,35 @@ const PokemonTypeForm = (props: Props) => {
     },
   });
 
+  const [mutationUpdatePokemonType, updateResult] = useMutation(
+    UPDATE_POKEMON_TYPE,
+    {
+      onError: (error) => {
+        toast(error.graphQLErrors[0].message, {
+          type: "error",
+        });
+      },
+      update: (store, response) => {
+        const dataInStore: any = store.readQuery({
+          query: GET_ALL_POKEMON_TYPES,
+        });
+        const updatedPokemonTypes = dataInStore.getAllPokemonTypes.map(
+          (p: any) =>
+            p.id !== response.data.updatePokemonType.id
+              ? p
+              : response.data.updatePokemonType
+        );
+        store.writeQuery({
+          query: GET_ALL_POKEMON_TYPES,
+          data: {
+            ...dataInStore,
+            getAllPokemonTypes: updatedPokemonTypes,
+          },
+        });
+      },
+    }
+  );
+
   useEffect(() => {
     if (updatePokemonType.id > 0) {
       setNameValue(updatePokemonType.name);
@@ -56,6 +94,14 @@ const PokemonTypeForm = (props: Props) => {
     }
   }, [createResult.data]);
 
+  useEffect(() => {
+    if (updateResult.data) {
+      toast(updateResult.data.updatePokemonType.message, {
+        type: "success",
+      });
+    }
+  }, [updateResult.data]);
+
   const handleChangeNameValue = (e: ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
   };
@@ -63,15 +109,32 @@ const PokemonTypeForm = (props: Props) => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const pokemonType = {
-      name: nameValue,
-    };
+    let pokemonType;
+
+    if (updatePokemonType.id === 0) {
+      pokemonType = {
+        name: nameValue,
+      };
+    } else {
+      pokemonType = {
+        id: updatePokemonType.id,
+        name: nameValue,
+      };
+    }
 
     if (updatePokemonType.id === 0)
       createPokemonType({ variables: { pokemonType } });
-    if (updatePokemonType.id > 0) console.log("update");
+    if (updatePokemonType.id > 0) {
+      mutationUpdatePokemonType({
+        variables: { pokemonType },
+      });
+    }
 
     setNameValue("");
+    setUpdatePokemonType({
+      id: 0,
+      name: "",
+    });
   };
 
   return (

@@ -21,7 +21,10 @@ const PokemonType = () => {
         </div>
       </div>
       <div className="row g-3">
-        <PokemonTypeForm updatePokemonType={updatePokemonType} />
+        <PokemonTypeForm
+          updatePokemonType={updatePokemonType}
+          setUpdatePokemonType={setUpdatePokemonType}
+        />
         <PokemonTypeList setUpdatePokemonType={setUpdatePokemonType} />
       </div>
     </>
