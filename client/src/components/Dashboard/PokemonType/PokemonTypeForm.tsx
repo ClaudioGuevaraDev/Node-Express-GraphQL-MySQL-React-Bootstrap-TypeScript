@@ -6,19 +6,27 @@ import {
   CREATE_POKEMON_TYPE,
   GET_ALL_POKEMON_TYPES,
 } from "../../../queries/PokemonType";
-import { PokemonType } from "../../../interfaces/PokemonType";
+import { UpdatePokemonType } from "../../../interfaces/PokemonType";
 
-const PokemonTypeForm = () => {
+interface Props {
+  updatePokemonType: UpdatePokemonType;
+}
+
+const PokemonTypeForm = (props: Props) => {
+  const { updatePokemonType } = props;
+
   const [nameValue, setNameValue] = useState("");
 
-  const [createPokemonType, result] = useMutation(CREATE_POKEMON_TYPE, {
+  const [createPokemonType, createResult] = useMutation(CREATE_POKEMON_TYPE, {
     onError: (error) => {
       toast(error.graphQLErrors[0].message, {
         type: "error",
       });
     },
     update: (store, response) => {
-      const dataInStore: any = store.readQuery({ query: GET_ALL_POKEMON_TYPES });
+      const dataInStore: any = store.readQuery({
+        query: GET_ALL_POKEMON_TYPES,
+      });
       store.writeQuery({
         query: GET_ALL_POKEMON_TYPES,
         data: {
@@ -33,14 +41,20 @@ const PokemonTypeForm = () => {
   });
 
   useEffect(() => {
-    if (result.data) {
-      if (result.data.createPokemonType.id) {
+    if (updatePokemonType.id > 0) {
+      setNameValue(updatePokemonType.name);
+    }
+  }, [updatePokemonType.id]);
+
+  useEffect(() => {
+    if (createResult.data) {
+      if (createResult.data.createPokemonType.id) {
         toast("Pokemon type created.", {
           type: "success",
         });
       }
     }
-  }, [result.data]);
+  }, [createResult.data]);
 
   const handleChangeNameValue = (e: ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
@@ -53,7 +67,9 @@ const PokemonTypeForm = () => {
       name: nameValue,
     };
 
-    createPokemonType({ variables: { pokemonType } });
+    if (updatePokemonType.id === 0)
+      createPokemonType({ variables: { pokemonType } });
+    if (updatePokemonType.id > 0) console.log("update");
 
     setNameValue("");
   };
@@ -77,7 +93,7 @@ const PokemonTypeForm = () => {
               />
             </div>
             <button className="btn btn-primary btn-lg w-100" type="submit">
-              Create
+              {updatePokemonType.id === 0 ? "Create" : "Update"}
             </button>
           </form>
         </div>

@@ -19,8 +19,8 @@ export const GET_ALL_POKEMON_TYPES = gql`
 `;
 
 export const DELETE_POKEMON = gql`
-  mutation ($pokemon: DeletePokemonInput!) {
-    deletePokemon(pokemon: $pokemon) {
+  mutation deletePokemonType($pokemon: DeletePokemonInput!) {
+    deletePokemonType(pokemon: $pokemon) {
       message
       pokemonType {
         id

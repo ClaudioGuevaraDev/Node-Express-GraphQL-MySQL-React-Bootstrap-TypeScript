@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import {
   CreatePokemonType,
   PokemonTypeId,
+  UpdatePokemonType,
 } from "../../../interfaces/PokemonType";
 import { PokemonType } from "../../../entities";
 
@@ -21,7 +22,7 @@ export const PokemonTypeMutation = {
         throw new Error("The type already exists.");
     }
   },
-  deletePokemon: async (_: undefined, args: PokemonTypeId) => {
+  deletePokemonType: async (_: undefined, args: PokemonTypeId) => {
     const pokemonType = await getRepository(PokemonType).findOne(
       parseInt(args.pokemon.id)
     );
@@ -39,4 +40,23 @@ export const PokemonTypeMutation = {
       throw new Error("error");
     }
   },
+  // updatePokemonType: async (_:undefined, args: UpdatePokemonType) => {
+  //   const pokemonType = await getRepository(PokemonType).findOne(args.pokemonType.id)
+
+  //   if (!pokemonType) throw new Error("Pokemon type not found.")
+
+  //   getRepository(PokemonType).merge(pokemonType, args.pokemonType.pokemon)
+
+  //   try {
+  //     const savedPokemonType = await getRepository(PokemonType).save(pokemonType)
+
+  //     return {
+  //       message: "Pokemon type updated",
+  //       pokemonType: savedPokemonType
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     throw new Error("Error")
+  //   }
+  // },
 };

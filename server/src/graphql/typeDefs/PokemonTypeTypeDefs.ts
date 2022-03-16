@@ -7,7 +7,7 @@ export const PokemonTypeTypeDefs = gql`
 
   type Mutation {
     createPokemonType(pokemonType: PokemonTypeInput!): PokemonType
-    deletePokemon(pokemon: DeletePokemonInput!): PokemonTypeResponse
+    deletePokemonType(pokemon: DeletePokemonInput!): PokemonTypeResponse
   }
 
   type PokemonType {
@@ -22,10 +22,7 @@ export const PokemonTypeTypeDefs = gql`
     pokemonType: PokemonType
   }
 
-  input PokemonTypeInput {
-    name: String!
-  }
+  input PokemonTypeInput { name: String! }
 
-  input DeletePokemonInput {
-  id: String!}
+  input DeletePokemonInput { id: String! }
 `;
