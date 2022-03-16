@@ -3,3 +3,9 @@ export interface CreatePokemonType {
     name: string;
   };
 }
+
+export interface PokemonTypeId {
+  pokemon: {
+    id: string;
+  };
+}

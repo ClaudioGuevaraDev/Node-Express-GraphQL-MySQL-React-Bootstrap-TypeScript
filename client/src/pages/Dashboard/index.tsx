@@ -13,6 +13,9 @@ import { RiLogoutBoxRFill } from "react-icons/ri";
 import { AppContext } from "../../context/AppContext";
 import { LOGGED_USER } from "../../context/AppConstants";
 
+// Sections
+import PokemonType from "../../components/Dashboard/PokemonType";
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -88,6 +91,21 @@ const Dashboard = () => {
                 <MdCatchingPokemon />
               </i>{" "}
               Pokemon
+            </button>
+            <button
+              type="button"
+              className={
+                buttonActive === "pokemon-type"
+                  ? "list-group-item list-group-item-action active"
+                  : "list-group-item list-group-item-action text-dark"
+              }
+              aria-current="true"
+              onClick={() => handleButtonActive("pokemon-type")}
+            >
+              <i className="me-2">
+                <MdCatchingPokemon />
+              </i>{" "}
+              Pokemon Type
             </button>
             <button
               type="button"
@@ -172,7 +190,8 @@ const Dashboard = () => {
           </nav>
 
           <div className="container-fluid px-4">
-            <div className="row g-3 my-2"></div>
+            {/* <div className="row g-3 my-2"></div> */}
+            {buttonActive === "pokemon-type" && <PokemonType />}
           </div>
         </div>
       </div>
